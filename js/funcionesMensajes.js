@@ -2,7 +2,7 @@
 
 function getMensajes (){
     $.ajax({
-        url:"http://localhost:8080/api/Message/all",
+        url:"http://138.2.233.157:8080/api/Message/all",
         type:"GET",
         datatype:"JSON",
         success:function(respuesta){
@@ -13,6 +13,11 @@ function getMensajes (){
 }
 
 function postMensajes(){
+
+    if($("#messageText").val().length==0 || $("#select-client").val().length==0 || $("#select-machine").val().length==0){
+        alert("Todos los campos son obligatorios");
+    }else{
+
     let cajas = {
         messageText:$("#messageText").val(),
         client:{idClient: +$("#select-client").val()},
@@ -21,24 +26,62 @@ function postMensajes(){
     };
     console.log(cajas);
     $.ajax({
-        url:"http://localhost:8080/api/Message/save",
+        url:"http://138.2.233.157:8080/api/Message/save",
         type:"POST",
         datatype:"JSON",
         contentType:"application/json; charset=utf-8",
         data: JSON.stringify(cajas),
         success:function(respuesta){
-            alert("se creo correctamente el mensaje");
+            alert("Se creo correctamente el mensaje");
             //window.location.reload();
     
         }
     });
+    }
 }
 
-function putMensajes(){
+function putMensajes(idDesdeBoton){
+    console.log(idDesdeBoton)
+    if($("#messageText").val().length==0){
+        alert("Todos los campos son obligatorios");
+    }else{
+
+    let cajas = {
+        messageText:$("#messageText").val(),
+       
+    };
+    $.ajax({
+        url:"http://138.2.233.157:8080/api/Message/update",
+        type:"PUT",
+        datatype:"JSON",
+        contentType:"application/json",
+        data: JSON.stringify(cajas),
+        success:function(respuesta){
+            alert("Se actualizo correctamente el mensaje");
+            window.location.reload();
+    
+        }
+    });
+    }
 
 }
 
-function deleteMensajes(){
+function deleteMensajes(idDesdeBoton){
+
+    let myData={
+        id:idDesdeBoton
+    };
+    $.ajax({
+        url:"http://138.2.233.157:8080/api/Message/"+idDesdeBoton,
+        type:"DELETE",
+        datatype:"JSON",
+        data: JSON.stringify(myData),
+        contentType:"application/json",
+        success:function(respuesta){
+            alert("Se borro correctamente el mensaje");
+            window.location.reload();
+        }
+    });
     
 }
 
@@ -47,22 +90,12 @@ function deleteMensajes(){
 
 function pintarMensajes(respuesta){
    
-    let myTable="<table>";
-    let MENSAJE = "MENSAJE";
-    let MAQUINA = "MAQUINA";
-    let CLIENTE = "CLIENTE";
-    //let EDAD = "EDAD";
-    
-    myTable+="<th>"+MENSAJE+"</th>";
-
-    myTable+="<th>"+MAQUINA+"</th>";
-
-    myTable+="<th>"+CLIENTE+"</th>";
-
-    
+    let myTable='<table class="table-auto w-50 table-left text-center whitespace-w-80">';
     for(i=0;i<respuesta.length;i++){
         myTable+="<tr>";
         myTable+="<td>"+respuesta[i].messageText+"</td>";
+        myTable+="<td> <button class='mx-20 text-white bg-blue-700 border-0 py-1 px-7 focus:outline-none hover:bg-gray-400 rounded text-lg' onclick='putMensajes("+respuesta[i].idMessage+") '> Actualizar</button>"
+        myTable+="<td> <button class='mx-20 text-white bg-blue-700 border-0 py-1 px-7 focus:outline-none hover:bg-gray-400 rounded text-lg' onclick='deleteMensajes("+respuesta[i].idMessage+")'> Borrar</button>"
         myTable+="</tr>";
     }
     myTable+="</table>";

@@ -2,7 +2,7 @@
 
 function getReservaciones (){
     $.ajax({
-        url:"http://localhost:8080/api/Reservation/all",
+        url:"http://138.2.233.157:8080/api/Reservation/all",
         type:"GET",
         datatype:"JSON",
         success:function(respuesta){
@@ -26,7 +26,7 @@ function postReservaciones(){
         machine:{id: +$("#select-machine").val()}
     };
     $.ajax({
-        url:"http://localhost:8080/api/Reservation/save",
+        url:"http://138.2.233.157:8080/api/Reservation/save",
         type:"POST",
         datatype:"JSON",
         contentType:"application/json; charset=utf-8",
@@ -56,13 +56,13 @@ function putReservaciones(idDesdeBoton){
         machine:{id: +$("#select-machine").val()}
     };
     $.ajax({
-        url:"http://localhost:8080/api/Reservation/update",
+        url:"http://138.2.233.157:8080/api/Reservation/update",
         type:"PUT",
         datatype:"JSON",
         contentType:"application/json",
         data: JSON.stringify(cajas),
         success:function(respuesta){
-            alert("se actualizo correctamente la informacion de la reservation");
+            alert("se actualizo correctamente la informacion de la reservación");
             window.location.reload();
     
             }
@@ -70,13 +70,13 @@ function putReservaciones(idDesdeBoton){
     }
 }
 
-function deleteReservaciones(data){
-    console.log(data);
+function deleteReservaciones(idDesdeBoton){
+    console.log(idDesdeBoton);
     let myData={
-        id:data
+        id:idDesdeBoton
     };
     $.ajax({
-        url:"http://localhost:8080/api/Reservation/"+data,
+        url:"http://138.2.233.157:8080/api/Reservation/"+idDesdeBoton,
         type:"DELETE",
         datatype:"JSON",
         data: JSON.stringify(myData),
@@ -90,7 +90,7 @@ function deleteReservaciones(data){
 }
 //////////////////////////////////////////////
 function  pintarReservaciones(json_maquinas){
-    let myTable="<table>";
+    let myTable='<table class="table-auto w-full table-center text-center whitespace-w-48">';
     for(i=0;i<json_maquinas.length;i++){
         myTable+="<tr>";
         myTable+="<td>"+json_maquinas[i].startDate+"</td>";
@@ -98,8 +98,8 @@ function  pintarReservaciones(json_maquinas){
         myTable+="<td>"+json_maquinas[i].status+"</td>";
         myTable+="<td>"+json_maquinas[i].machine.name+"</td>";
         myTable+="<td>"+json_maquinas[i].client.name+"</td>";
-        myTable+="<td> <button onclick='putReservaciones("+json_maquinas[i].idReservation+")'> Actualizar</button>"
-        myTable+="<td> <button onclick='deleteReservaciones("+json_maquinas[i].idReservation+")'> Borrar</button>"
+        myTable+="<td> <button class='mx-auto text-white bg-blue-700 border-0 py-1 px-7 focus:outline-none hover:bg-gray-400 rounded text-lg' onclick='putReservaciones("+json_maquinas[i].idReservation+")'> Actualizar</button>"
+        myTable+="<td> <button class='mx-auto text-white bg-blue-700 border-0 py-1 px-7 focus:outline-none hover:bg-gray-400 rounded text-lg' onclick='deleteReservaciones("+json_maquinas[i].idReservation+")'> Borrar</button>"
         myTable+="</tr>";
     }
     myTable+="</table>";

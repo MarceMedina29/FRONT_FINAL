@@ -14,6 +14,11 @@ function getMachine (){
 }
 
 function postMachine(){
+
+    if($("#name").val().length==0 || $("#brand").val().length==0 || $("#year").val().length==0 || $("#description").val().length==0){
+        alert("Todos los campos son obligatorios");
+    }else{
+
     let cajas = {
         name:$("#name").val(),
         brand:$("#brand").val(),
@@ -34,7 +39,7 @@ function postMachine(){
     
         }
     });
-
+    }
 }
 
 function putMachine(idDesdeBoton){
@@ -43,15 +48,15 @@ function putMachine(idDesdeBoton){
         alert("Todos los campos son obligatorios");
     }else{
     let cajas = {
+        id:idDesdeBoton,
         name:$("#name").val(),
         brand:$("#brand").val(),
         year:$("#year").val(),
         description:$("#description").val(),
         category:{id: +$("#select-categoria").val()}
     };
-    console.log(cajas);
     $.ajax({
-        url:"http://138.2.233.157:8080/api/Category/update",
+        url:"http://138.2.233.157:8080/api/Machine/update",
         type:"PUT",
         datatype:"JSON",
         contentType:"application/json",
@@ -65,11 +70,12 @@ function putMachine(idDesdeBoton){
 }
 
 function deleteMachine(idDesdeBoton){
+   
     let myData={
         id:idDesdeBoton
     };
     $.ajax({
-        url:"http://138.2.233.157:8080/api/Category/"+idDesdeBoton,
+        url:"http://138.2.233.157:8080/api/Machine/"+idDesdeBoton,
         type:"DELETE",
         datatype:"JSON",
         data: JSON.stringify(myData),
@@ -93,13 +99,12 @@ function pintarMachine(json_maquinas){
         myTable+="<td>"+json_maquinas[i].year+"</td>";
         myTable+="<td>"+json_maquinas[i].description+"</td>";
         myTable+="<td>"+json_maquinas[i].category.name+"</td>";
-        myTable+="<td> <button class='mx-auto text-white bg-blue-700 border-0 py-1 px-7 focus:outline-none hover:bg-gray-400 rounded text-lg' onclick='putCategoria("+respuesta[i].id+") '> Actualizar</button>"
-        myTable+="<td> <button class='mx-auto text-white bg-blue-700 border-0 py-1 px-7 focus:outline-none hover:bg-gray-400 rounded text-lg' onclick='deleteCategoria("+respuesta[i].id+")'> Borrar</button>"
+        myTable+="<td> <button class='mx-auto text-white bg-blue-700 border-0 py-1 px-7 focus:outline-none hover:bg-gray-400 rounded text-lg' onclick='putMachine("+json_maquinas[i].id+") '> Actualizar</button>"
+        myTable+="<td> <button class='mx-auto text-white bg-blue-700 border-0 py-1 px-7 focus:outline-none hover:bg-gray-400 rounded text-lg' onclick='deleteMachine("+json_maquinas[i].id+")'> Borrar</button>"
         myTable+="</tr>";
     }
     myTable+="</table>";
     $("#resultadoMachine").html(myTable);
-
 }
 
 function getCategoria_Machine(){

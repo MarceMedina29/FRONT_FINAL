@@ -12,7 +12,7 @@ function traerReporteStatus(){
 
 function pintarStatus(json_maquinas){
     
-    let myTable = "<table>";
+    let myTable = '<table class="table-auto w-full table-center text-center whitespace-w-48">';
 
         myTable += "<tr>";
         myTable += "<td>" + "Reservas completa: " + json_maquinas.completed + "</td>";
@@ -58,7 +58,7 @@ function pintarFechas(respuesta){
         }
     }
 
-    let myTable = "<table>";
+    let myTable = '<table class="table-auto w-full table-center text-center whitespace-w-48">';
 
         myTable += "<tr>";
         myTable += "<td>" + "Reservas completas: " + completadas + "</td>";
@@ -86,15 +86,20 @@ function traerReportesClientes(){
 
 function pintarClientes(respuesta){
 
-    let myTable = "<table class='max-w-2xl'>";
+    let myTable = '<table class="table-auto w-full table-center text-center whitespace-w-48">';
     for(let i = 0; i < respuesta.length; i++){
         myTable += "<tr>";
-        myTable += `<td>ID: +${respuesta[i].idClient}+ </td>`;
-        myTable += `<td>Nombre:+${respuesta[i].name}+ </td>`;
-        myTable += `<td>Email:+${respuesta[i].email}+ </td>`;
-        myTable += `<td>Contraseña: +${respuesta[i].password}+ </td>`;
-        myTable += `<td>Edad: +${respuesta[i].age}, </td>`;
-        myTable += `<td>Reservas totales: +${respuesta[i].total} +</td>`;
+        myTable += `<td>ID: +${respuesta[i].idClient}+ </td>`
+        myTable += "<tr>"
+        myTable += `<td>Nombre:+${respuesta[i].name}+ </td>`
+        myTable += "<tr>"
+        myTable += `<td>Email:+${respuesta[i].email}+ </td>`
+        myTable += "<tr>"
+        myTable += `<td>Contraseña: +${respuesta[i].password}+ </td>`
+        myTable += "<tr>"
+        myTable += `<td>Edad: +${respuesta[i].age}, </td>`
+        myTable += "<tr>"
+        myTable += `<td>Reservas totales: +${respuesta[i].total}+</td>`
         myTable += "</tr>";
     } 
     myTable += "</table>";
